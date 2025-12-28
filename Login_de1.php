@@ -5,13 +5,17 @@ header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Content-Type: application/json; charset=UTF-8");
 
 // lấy dữ liệu từ client gửi POST lên
-$username = $_POST["username"] ?? "";
-$password = $_POST["password"] ?? "";
-
-// kiểm tra
-if($username === "admin" && $password === "123"){
-    echo json_encode(["SUCCESS" => "TRUE"]);
-} else {
-    echo json_encode(["SUCCESS" => "FALSE"]);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? "";
+    $password = $_POST['password'] ?? "";
+} 
+else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $username = $_GET['username'] ?? "";
+    $password = $_GET['password'] ?? "";
+} 
+else {
+    echo json_encode(["SUCCESS" => false, "MESSAGE" => "Unsupported method"]);
+    exit;
 }
+
 ?>
